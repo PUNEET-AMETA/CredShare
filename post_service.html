@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Post a Service</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="request_service_style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Post a Service</h1>
+        <form id="postServiceForm">
+            <label for="serviceName">Service Name:</label>
+            <input type="text" id="serviceName" name="serviceName" required placeholder="Enter the service name">
+
+            <label for="serviceDuration">Duration:</label>
+            <input type="text" id="serviceDuration" name="serviceDuration" required placeholder="Enter the duration">
+
+            <label for="servicePrice">Price (ETH):</label>
+            <input type="number" id="servicePrice" name="servicePrice" required step="0.01" min="0" placeholder="Enter the price in ETH">
+
+            <label for="walletAddress">MetaMask Wallet Address:</label>
+            <input type="text" id="walletAddress" name="walletAddress" required pattern="^0x[a-fA-F0-9]{40}$" title="Please enter a valid MetaMask wallet address (42 characters starting with 0x)" placeholder="Enter your MetaMask wallet address">
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required placeholder="Enter the username">
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required placeholder="Enter the password">
+
+            <button type="submit">Post</button>
+        </form>
+
+        <h2>Frequently Requested Services:</h2>
+        <ul id="requestedServicesList"></ul>
+    </div>
+
+    <script>
+        // Load requested services
+        function loadRequestedServices() {
+            const requestedServicesList = document.getElementById("requestedServicesList");
+            requestedServicesList.innerHTML = ''; // Clear the list
+            const requests = getRequestedServices();
+            requests.forEach(request => {
+                const li = document.createElement("li");
+                li.textContent = request;
+                requestedServicesList.appendChild(li);
+            });
+        }
+
+        // Event listener for form submission
+        document.getElementById('postServiceForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Collect input values
+            const name = document.getElementById("serviceName").value;
+            const duration = document.getElementById("serviceDuration").value;
+            const priceInEth = document.getElementById("servicePrice").value;
+            const walletAddress = document.getElementById("walletAddress").value;
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Validate MetaMask wallet address
+            const walletAddressPattern = /^0x[a-fA-F0-9]{40}$/;
+            if (!walletAddressPattern.test(walletAddress)) {
+                alert("Please enter a valid MetaMask wallet address (42 characters starting with 0x).");
+                return;
+            }
+
+            // Store username and password in local storage
+            localStorage.setItem('postServiceUsername', username);
+            localStorage.setItem('postServicePassword', password);
+
+            // Store wallet address in local storage
+            localStorage.setItem('postServiceWalletAddress', walletAddress);
+
+            // Create a new service object
+            const newService = {
+                name,
+                duration,
+                price: priceInEth, // Price in Ethereum
+                walletAddress,
+                username,
+                password
+            };
+
+            // Add the new service to available services
+            addService(newService);
+
+            alert(`Posted service: ${name} for ${priceInEth} ETH (Duration: ${duration})`);
+
+            // Clear input fields
+            document.getElementById("serviceName").value = "";
+            document.getElementById("serviceDuration").value = "";
+            document.getElementById("servicePrice").value = "";
+            document.getElementById("walletAddress").value = "";
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+
+            // Redirect to home page
+            window.location.href = "index.html";
+        });
+
+        // Initialize the page with requested services
+        loadRequestedServices();
+    </script>
+</body>
+</html>

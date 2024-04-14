@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login Credentials</title>
+    <style>
+        body {
+            background-image: url('credentials.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Set body height to viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 400px;
+            margin-top: -150px; /* Adjust margin-top to shift more upward */
+            padding: 20px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Login Credentials</h1>
+        <p><strong>Username:</strong> <span id="username"></span></p>
+        <p><strong>Password:</strong> <span id="password"></span></p>
+    </div>
+
+    <script>
+        // Retrieve the query parameters from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username');
+        const password = urlParams.get('password');
+
+        // Display the username and password on the page
+        document.getElementById('username').textContent = username;
+        document.getElementById('password').textContent = password;
+    </script>
+</body>
+
+</html>
+
+
+

@@ -1,0 +1,11 @@
+/* Add your styles here */
+.container {
+    margin: 0 auto;
+    width: 50%;
+    padding: 20px;
+    text-align: center;
+}
+
+button {
+    margin: 5px;
+}
